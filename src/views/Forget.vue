@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">1111后台管理系统</div>
+            <div class="ms-title">后台管理系统</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="ruleForm.username" placeholder="username">
@@ -16,7 +16,6 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <router-link to="/forget" class=" -tips">忘记密码</router-link>
             </el-form>
         </div>
     </div>
@@ -50,12 +49,7 @@
                         return false;
                     }
                 });
-            },
-            forgetpwd(){
-                debugger
-                console.log(this.$router)
-                this.$router('forget');
-            }
+            }     
         }
     }
 </script>
