@@ -22,12 +22,14 @@
     </div>
 </template>
 <script>
+    import {localapi, proapi, imgBaseUrl} from '../config/env'
+    import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../service/getData'
     export default {
         data: function(){
             return {
                 ruleForm: {
-                    username: 'admin',
-                    password: '123123'
+                    username: '',
+                    password: ''
                 },
                 rules: {
                     username: [
@@ -40,16 +42,17 @@
             }
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+           async submitForm(formName) {  
+             debugger          
+               try {
+                 await  this.$refs[formName].validate()
+                    this.userInfo =   await accountLogin(this.ruleForm.username, this.ruleForm.passWord)
+                    localStorage.setItem('ms_username',this.ruleForm.username);
+                    this.$router.push('/');
+               } catch (error) {
+                   
+               }
+                
             }
         }
         
