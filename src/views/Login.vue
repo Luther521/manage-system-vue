@@ -9,14 +9,14 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                    <el-input type="password" placeholder="password" v-model="ruleForm.password" >
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <router-link to="/forget" class="login-tips">忘记密码</router-link>
+                <!-- <router-link to="/forget" class="login-tips">忘记密码</router-link> -->
             </el-form>
         </div>
     </div>
@@ -24,6 +24,7 @@
 <script>
     import {localapi, proapi, imgBaseUrl} from '../config/env'
     import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../service/getData'
+    import Token from '../utils/token'
     export default {
         data: function(){
             return {
@@ -46,10 +47,13 @@
              debugger          
                try {
                  await  this.$refs[formName].validate()
-                    this.userInfo =   await accountLogin(this.ruleForm.username, this.ruleForm.passWord)
-                    localStorage.setItem('ms_username',this.ruleForm.username);
-                    this.$router.push('/');
+                    this.userInfo =   await accountLogin(this.ruleForm.username, this.ruleForm.password)
+                    //设置token值放在session中
+                    localStorage.setItem('ms_username',this.ruleForm.username)
+                    Token.set(this.ruleForm.username)
+                    this.$router.push('/dashboard')
                } catch (error) {
+                   //移除token
                    
                }
                 
