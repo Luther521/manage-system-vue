@@ -4,12 +4,12 @@
             <div class="ms-title">后台管理系统</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="username">
+                    <el-input v-model="ruleForm.username" placeholder="请输入登录账号">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" >
+                    <el-input type="password" placeholder="请输入登录密码" v-model="ruleForm.password" >
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
@@ -25,6 +25,7 @@
     import {localapi, proapi, imgBaseUrl} from '../config/env'
     import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../service/getData'
     import Token from '../utils/token'
+    import Aes  from '../utils/aes'
     export default {
         data: function(){
             return {
@@ -37,7 +38,7 @@
                         { required: true, message: '请输入登录账号', trigger: 'blur' }
                     ],
                     password: [
-                        { required: true, message: '请输入登录密码输入密码', trigger: 'blur' }
+                        { required: true, message: '请输入登录密码', trigger: 'blur' }
                     ]
                 }
             }
@@ -47,7 +48,8 @@
              debugger          
                try {
                  await  this.$refs[formName].validate()
-                    this.userInfo =   await accountLogin(this.ruleForm.username, this.ruleForm.password)
+                    this.userInfo =   await accountLogin(this.ruleForm.username, Aes.encrypt16(this.ruleForm.password))
+                    console.log(Aes.encrypt16(this.ruleForm.password)+"我是密码")
                     //设置token值放在session中
                     localStorage.setItem('ms_username',this.ruleForm.username)
                     Token.set(this.ruleForm.username)
@@ -68,7 +70,7 @@
         position: relative;
         width:100%;
         height:100%;
-        background-image: url(../assets/img/login-bg.jpg);
+        background-image: url(../assets/img/back-bg.jpg);
         background-size: 100%;
     }
     .ms-title{
@@ -76,7 +78,7 @@
         line-height: 50px;
         text-align: center;
         font-size:20px;
-        color:rgb(19, 130, 226);
+        color:rgb(6, 135, 247);
         border-bottom: 1px solid #ddd;
     }
     .ms-login{
