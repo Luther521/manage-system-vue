@@ -30,29 +30,67 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <!-- <a href="http://blog.gdfengshuo.com/about/" target="_blank">
-                            <el-dropdown-item>关于作者</el-dropdown-item>
-                        </a>-->
-                        <a >
+                        <a  target="_self"  @click="changepwd()">
                             <el-dropdown-item>修改密码</el-dropdown-item>
-                        </a> 
+                        </a>
                         <el-dropdown-item divided  command="loginout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
+                 <!-- 编辑弹出框 -->
+                <el-dialog title="修改密码" :visible.sync="editVisible" width="30%">
+                    <el-form ref="form" :model="form" label-width="50px">
+                        <el-form-item label="旧密码">
+                            <el-input type="password"  v-model="form.oldPwd"  placeholder="请输入旧密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码">
+                            <el-input  type="password" v-model="form.newPwd"  placeholder="请输入旧密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码">
+                            <el-input type="password" v-model="form.newPwd1"  placeholder="请输入旧密码"></el-input>
+                        </el-form-item>
+
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="editVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+                    </span>
+                </el-dialog>
             </div>
         </div>
     </div>
 </template>
 <script>
-    import bus from '../utils/bus';
+    import bus from '../utils/bus'
     export default {
         data() {
             return {
                 collapse: false,
                 fullscreen: false,
                 name: 'linxin',
-                message: 2
+                message: 2,
+                editVisible: false,
+                delVisible: false,
+                form: {
+                    oldPwd: '',
+                    newPwd1: '',
+                    newPwd:''
+
+                },
+                  rules: {
+                    oldPwd: [
+                        { required: true, message: '请输入正确的密码', trigger: 'blur' }
+                    ],
+                    newPwd1: [
+                        { required: true, message: '请输入正确的密码', trigger: 'blur' }
+                    ],
+                     newPwd2: [
+                        { required: true, message: '请输入正确的密码', trigger: 'blur' }
+                    ]
+                }
             }
+        },
+        components:{
+         
         },
         computed:{
             username(){
@@ -68,6 +106,24 @@
                     this.$router.push('/login');
                 }
             },
+            //修改密码
+            changepwd(){
+                this.editVisible=true
+            },
+            //修改密码提交
+             async submitForm(form) {         
+               try {
+                 await  this.$refs[form].validate()
+                    this.userInfo =   await accountLogin(Aes.encrypt16(this.ruleForm.oldPwd), Aes.encrypt16(this.ruleForm.newPwd),Aes.encrypt16(this.ruleForm.newPwd1))//修改下重置密码接口就行
+                    this.editVisible=false
+               } catch (error) {
+                   //显示修改密码错误提示
+
+                   
+               }
+                
+            }
+          ,
             // 侧边栏折叠
             collapseChage(){
                 this.collapse = !this.collapse;
@@ -182,4 +238,8 @@
     .el-dropdown-menu__item{
         text-align: center;
     }
+    .el-dialog__header{
+        text-align: center
+    }
+
 </style>
