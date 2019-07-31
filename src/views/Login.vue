@@ -1,16 +1,17 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
-                <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="请输入登录账号">
-                        <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
+            <div class="ms-title"><img :src="logo"></div>
+         
+            <el-form :model="ruleForm"  :label-position="labelPosition" :rules="rules" ref="ruleForm"  class="ms-content">
+                <el-form-item prop="username" label="用户名：" >
+                    <el-input v-model="ruleForm.username" placeholder="请输入用户名" size="middle">
+                        <!-- <el-button slot="prepend" icon="el-icon-lx-people"></el-button> -->
                     </el-input>
                 </el-form-item>
-                <el-form-item prop="password">
-                    <el-input type="password" placeholder="请输入登录密码" v-model="ruleForm.password" >
-                        <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
+                <el-form-item prop="password" label="密码：">
+                    <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" size="middle" >
+                        <!-- <el-button slot="prepend" icon="el-icon-lx-lock"></el-button> -->
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
@@ -33,6 +34,8 @@
                     username: '',
                     password: ''
                 },
+                labelPosition:'top',
+                logo:require('../assets/img/logo@2x.png'),
                 rules: {
                     username: [
                         { required: true, message: '请输入登录账号', trigger: 'blur' }
@@ -70,16 +73,24 @@
         position: relative;
         width:100%;
         height:100%;
-        background-image: url(../assets/img/back-bg.jpg);
+        background-image: url(../assets/img/back-bg.png);
         background-size: 100%;
     }
     .ms-title{
-        width:100%;
+        width:360px;
+        height: 100px;
         line-height: 50px;
         text-align: center;
         font-size:20px;
-        color:rgb(6, 135, 247);
+        color:#278DEC;
         border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+
+    }
+    .ms-title img{
+        width: 35%;
     }
     .ms-login{
         position: absolute;
@@ -88,18 +99,20 @@
         width:350px;
         margin:-190px 0 0 -175px;
         border-radius: 5px;
-        background: rgba(255,255,255, 0.3);
+        background:#278DEC;
         overflow: hidden;
     }
     .ms-content{
         padding: 30px 30px;
+        background-color: #fff;
+        height: 237px;
     }
     .login-btn{
         text-align: center;
     }
     .login-btn button{
-        width:100%;
-        height:36px;
+        width:280px;
+        height:42px;
         margin-bottom: 10px;
     }
     .login-tips{
