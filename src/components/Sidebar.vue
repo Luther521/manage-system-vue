@@ -153,6 +153,7 @@
         top: 70px;
         bottom:0;
         overflow-y: scroll;
+        background-color: #001C37;
     }
     .sidebar::-webkit-scrollbar{
         width: 0;
