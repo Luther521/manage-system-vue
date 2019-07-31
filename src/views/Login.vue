@@ -31,8 +31,8 @@
         data: function(){
             return {
                 ruleForm: {
-                    username: '',
-                    password: ''
+                    username: 'admin',
+                    password: '123456'
                 },
                 labelPosition:'top',
                 logo:require('../assets/img/logo@2x.png'),
